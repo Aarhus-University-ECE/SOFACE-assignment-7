@@ -12,7 +12,7 @@ template <typename T>
 class Mat2D
 {
 public:
-    Mat2D(size_t n_rows, size_t n_cols) : n_rows(n_rows), n_cols(n_cols), data({n_rows * n_cols})
+    Mat2D(size_t n_rows, size_t n_cols) : n_rows(n_rows), n_cols(n_cols), data(n_rows * n_cols)
     {
     }
 
@@ -21,13 +21,13 @@ public:
     {
     }
 
-    // split the matrix in n parts and use multiple spawn one thread per partition to perform the multiplication.
+    // split the matrix in n parts and use multiple spawn one thread per paSrtition to perform the multiplication.
     void multiply_partitioned(T factor, size_t n_partitions)
     {
         // 1) split data into n partitions, for example if the number of elements is 100 and 4 partitions are used, each
         // partition will contain 25 elements.
         // We store the pairs of start and stop elements [(start_0, end_0), (start_1, end_1), ... (start_3, end_3)]
-        std::vector<std::tuple<std::vector<T>::iterator, std::vector<T>::iterator>> slices;
+        std::vector<std::tuple<typename std::vector<T>::iterator, typename std::vector<T>::iterator>> slices;
 
         size_t elems_per_partition = this->data.size() / n_partitions;
 
